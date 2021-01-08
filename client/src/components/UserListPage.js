@@ -16,7 +16,6 @@ function UserListPage() {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        console.log('Use effect')
         setLoading(true);
         try {
             getAllUsers().then(users => {

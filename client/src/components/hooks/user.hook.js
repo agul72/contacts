@@ -79,11 +79,8 @@ export const useUser = () => {
         }
     }, []);
 
-    const saveUser = useCallback(async (url, method, user, imageUrl) => {
+    const saveUser = useCallback(async (url, method, user) => {
         console.log(user);
-        if (imageUrl) {
-            user.picture = imageUrl;
-        }
         const body = JSON.stringify(user);
         const headers = {
             "Content-Type": 'application/json'
@@ -98,7 +95,6 @@ export const useUser = () => {
                 }
             );
             setLoading(false);
-            console.log(response);
         } catch (e) {
             toast.error(e.message, {
                 position: toast.POSITION.TOP_LEFT

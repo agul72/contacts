@@ -17,7 +17,7 @@ export default function Form(props) {
     const [photo, setPhoto] = useState(null);
     const [loading, setLoading] = useState(false);
     const location = useLocation();
-    const { saveUser } = useUser();
+    const {saveUser} = useUser();
 
     const changeInputHandler = (event) => {
         setForm(prev => ({
@@ -52,18 +52,6 @@ export default function Form(props) {
         return await response.json();
     }, []);
 
-    const changePictureUrl = async (photo) => {
-        const image = await fetchImageToCloudinary(photo);
-        setForm(prev => ({
-            ...prev,
-            picture: image.secure_url
-        }));
-        // let url = form.picture;
-        // while (image.secure_url !== url) {
-        //     setTimeout(() => url = form.picture, 1000);
-        // }
-    }
-
     const submitHandler = async event => {
         event.preventDefault();
         if (!form.name.trim()) {
@@ -72,37 +60,31 @@ export default function Form(props) {
             });
         }
 
-
-            try {
-                setLoading(true);
-                let imageUrl = null;
-                if (photo) {
-                    // await changePictureUrl(photo);
-                    const image = await fetchImageToCloudinary(photo);
-                    imageUrl = image.secure_url;
-                    // setForm(prev => ({
-                    //     ...prev,
-                    //     picture: image.secure_url
-                    // }));
-                }
-                console.log(form);
-                switch (location.pathname) {
-                    case '/create':
-                        await saveUser('/api/user/', 'POST', form, imageUrl);
-                        resetHandler(event);
-                        break;
-                    case '/update':
-                        await saveUser('/api/user', 'PUT', form, imageUrl);
-                        break;
-                    default:
-                        return;
-                }
-                setLoading(false);
-
-            } catch (e) {
-                console.log("Fetch user error:", e.message);
-                setLoading(false);
+        try {
+            const user = {...form};
+            setLoading(true);
+            if (photo) {
+                const image = await fetchImageToCloudinary(photo);
+                const imageUrl = image.secure_url;
+                user.picture = imageUrl
             }
+            switch (location.pathname) {
+                case '/create':
+                    await saveUser('/api/user/', 'POST', user);
+                    resetHandler(event);
+                    break;
+                case '/update':
+                    await saveUser('/api/user', 'PUT', user);
+                    break;
+                default:
+                    return;
+            }
+            setLoading(false);
+
+        } catch (e) {
+            console.log("Fetch user error:", e.message);
+            setLoading(false);
+        }
 
     }
 
