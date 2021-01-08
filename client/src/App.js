@@ -13,11 +13,11 @@ function App() {
             <BrowserRouter >
                 <NavBar/>
                 <Switch>
-                    <Route path={'/create'} component={CreatePage} />
-                    <Route path={'/update'} component={EditPage} />
-                    <Route path={'/search'} component={SearchPage} />
-                    <Route path={['/list', '/home', '/']} component={UserListPage} exact />
-                    <Redirect to={'/home'} />
+                    <Route path='/create' component={CreatePage} />
+                    <Route path='/update' component={EditPage} />
+                    <Route path='/search' component={SearchPage} />
+                    <Route path='/list' component={UserListPage} exact />
+                    <Redirect to={'/list'} />
                 </Switch>
             </BrowserRouter>
 

@@ -124,7 +124,7 @@ router.put('/',
         body('name').trim().escape(),
         // body('name').isEmpty().withMessage('Name cannot be empty'),
         body('picture').trim().escape(),
-        // body('descriptgit add .ions').trim().escape()
+        body('description').trim().escape()
     ],
     async (req, res) => {
         console.log('User update router');

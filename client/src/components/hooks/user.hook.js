@@ -79,8 +79,11 @@ export const useUser = () => {
         }
     }, []);
 
-    const saveUser = useCallback(async (url, method, user) => {
+    const saveUser = useCallback(async (url, method, user, imageUrl) => {
         console.log(user);
+        if (imageUrl) {
+            user.picture = imageUrl;
+        }
         const body = JSON.stringify(user);
         const headers = {
             "Content-Type": 'application/json'

@@ -52,13 +52,17 @@ export default function Form(props) {
         return await response.json();
     }, []);
 
-    const changePictureUrl = useCallback((url) => {
-        console.log(url);
+    const changePictureUrl = async (photo) => {
+        const image = await fetchImageToCloudinary(photo);
         setForm(prev => ({
             ...prev,
-            picture: url
+            picture: image.secure_url
         }));
-    }, [])
+        // let url = form.picture;
+        // while (image.secure_url !== url) {
+        //     setTimeout(() => url = form.picture, 1000);
+        // }
+    }
 
     const submitHandler = async event => {
         event.preventDefault();
@@ -71,18 +75,24 @@ export default function Form(props) {
 
             try {
                 setLoading(true);
+                let imageUrl = null;
                 if (photo) {
+                    // await changePictureUrl(photo);
                     const image = await fetchImageToCloudinary(photo);
-                    const cloudinaryImageUrl = image.secure_url;
-                    await changePictureUrl(cloudinaryImageUrl);
+                    imageUrl = image.secure_url;
+                    // setForm(prev => ({
+                    //     ...prev,
+                    //     picture: image.secure_url
+                    // }));
                 }
+                console.log(form);
                 switch (location.pathname) {
                     case '/create':
-                        await saveUser('/api/user/', 'POST', form);
+                        await saveUser('/api/user/', 'POST', form, imageUrl);
                         resetHandler(event);
                         break;
                     case '/update':
-                        await saveUser('/api/user', 'PUT', form);
+                        await saveUser('/api/user', 'PUT', form, imageUrl);
                         break;
                     default:
                         return;
