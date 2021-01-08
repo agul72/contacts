@@ -1,0 +1,5 @@
+{
+  "port": 5000,
+  "mongoUri": "mongodb+srv://agul:12345.com@cluster0.7lzsi.mongodb.net/evolution-energy?retryWrites=true&w=majority",
+  "baseUrl": "http://localhost:5000"
+}
